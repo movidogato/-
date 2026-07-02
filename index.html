@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>나에게 맞는 AI 수익화 유형 · MVL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<style>
+  :root{
+    --paper:#FCF4EA; --paper-2:#F5E7D6; --ink:#2A1730; --ink-soft:#6E5A6B;
+    --line:#E7D6C5; --glow-1:#FF6A4D; --glow-2:#FF9E45; --glow-3:#FFC95C;
+    --dusk-top:#241433; --dusk-mid:#6E2A45; --dusk-low:#C44A3A; --cream:#FFF3E4;
+    --grad:linear-gradient(100deg,#FF6A4D,#FF9E45 55%,#FFC95C); --maxw:520px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Pretendard",system-ui,-apple-system,sans-serif;background:var(--paper);
+    color:var(--ink);line-height:1.6;letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+  .serif{font-family:"Gowun Batang",serif}
+  .glow{background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  .wrap{max-width:var(--maxw);margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+  .screen{flex:1;display:none;flex-direction:column;justify-content:center;padding:34px 22px 44px}
+  .screen.active{display:flex}
+
+  #intro{text-align:center;color:var(--cream);justify-content:center;
+    background:radial-gradient(120% 70% at 50% 118%,rgba(255,201,92,.8),rgba(255,158,69,0) 60%),
+      linear-gradient(176deg,var(--dusk-top),var(--dusk-mid) 56%,var(--dusk-low) 92%,#E96A3C);}
+  #intro .badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.22em;
+    border:1px solid rgba(255,201,92,.55);color:var(--glow-3);padding:6px 15px;border-radius:100px;margin-bottom:22px}
+  #intro h1{font-size:34px;font-weight:900;line-height:1.25;letter-spacing:-.02em}
+  #intro .eq{font-size:15px;font-weight:700;color:#FBE6CF;margin-bottom:12px;letter-spacing:.03em}
+  #intro p{font-size:15px;color:#FBE6CF;margin:18px auto 0;max-width:22em;line-height:1.7}
+  #intro .by{font-size:12px;color:#E9C8B6;margin-top:20px}
+  .cta{display:inline-block;font-family:inherit;font-weight:800;font-size:16px;cursor:pointer;border:none;
+    border-radius:100px;padding:16px 40px;color:#2A1730;text-decoration:none;
+    background:var(--grad);box-shadow:0 12px 30px -8px rgba(255,120,70,.55);transition:transform .13s}
+  .cta:hover{transform:translateY(-2px)} .cta:active{transform:translateY(0)}
+  #intro .cta{margin-top:30px}
+
+  .pbar-wrap{position:sticky;top:0;background:var(--paper);padding:18px 22px 6px;z-index:5}
+  .pbar{height:6px;background:var(--paper-2);border-radius:6px;overflow:hidden}
+  .pbar span{display:block;height:100%;width:0;background:var(--grad);border-radius:6px;transition:width .35s ease}
+  .pcount{font-size:12px;color:var(--ink-soft);font-weight:700;margin-top:8px;text-align:center}
+
+  .qtitle{font-size:22px;font-weight:800;line-height:1.4;margin-bottom:24px;letter-spacing:-.01em}
+  .qtitle small{display:block;font-size:13px;font-weight:600;color:var(--ink-soft);margin-top:8px;letter-spacing:0}
+  .opts{display:grid;gap:11px}
+  .opt{font-family:inherit;text-align:left;font-size:15px;font-weight:600;color:var(--ink);cursor:pointer;
+    background:#fff;border:1.5px solid var(--line);border-radius:15px;padding:17px 18px;transition:all .14s;line-height:1.45}
+  .opt:hover{border-color:var(--glow-2)}
+  .opt.sel{border-color:var(--glow-1);background:linear-gradient(100deg,rgba(255,106,77,.08),rgba(255,201,92,.12));
+    box-shadow:0 8px 20px -12px rgba(255,120,70,.5)}
+  .qnav{display:flex;justify-content:space-between;align-items:center;margin-top:22px}
+  .back{font-family:inherit;background:none;border:none;color:var(--ink-soft);font-size:14px;font-weight:700;cursor:pointer;padding:8px 4px}
+  .back:disabled{opacity:.3;cursor:default}
+
+  #result{padding:0 0 44px}
+  .res-hero{color:var(--cream);text-align:center;padding:48px 22px 38px;
+    background:radial-gradient(120% 80% at 50% 130%,rgba(255,201,92,.7),rgba(255,158,69,0) 60%),
+      linear-gradient(170deg,var(--dusk-top),var(--dusk-mid) 60%,var(--dusk-low));}
+  .res-hero .lbl{font-size:12px;font-weight:800;letter-spacing:.22em;color:var(--glow-3);text-transform:uppercase}
+  .res-hero .emoji{font-size:52px;margin:14px 0 6px}
+  .res-hero h2{font-size:30px;font-weight:900;letter-spacing:-.02em}
+  .res-hero .tagline{font-size:15px;color:#FBE6CF;margin-top:10px;max-width:22em;margin-left:auto;margin-right:auto}
+  .res-body{padding:26px 22px 0}
+  .rcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:13px}
+  .rcard .rh{font-size:12px;font-weight:800;letter-spacing:.04em;color:var(--glow-1);margin-bottom:9px;display:flex;align-items:center;gap:8px}
+  .rcard .rt{font-size:14.5px;line-height:1.75;color:var(--ink)}
+  .also{text-align:center;font-size:13px;color:var(--ink-soft);margin:6px 0 4px}
+  .alsoBtn{font-family:inherit;font-size:13.5px;font-weight:800;color:var(--glow-1);background:none;border:none;
+    cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:4px 2px}
+  .alsoBtn:hover{color:var(--glow-2)}
+
+  .cap{margin:22px 16px 0;color:var(--cream);text-align:center;border-radius:22px;padding:30px 22px 34px;
+    background:radial-gradient(120% 90% at 50% -10%,rgba(255,201,92,.65),rgba(255,158,69,0) 55%),
+      linear-gradient(168deg,var(--dusk-top),var(--dusk-mid) 62%,var(--dusk-low));}
+  .cap .ch{font-size:19px;font-weight:900;line-height:1.4;margin-bottom:8px}
+  .cap .cs{font-size:13px;color:#FBE6CF;margin-bottom:18px;line-height:1.65}
+  .cfield{text-align:left;margin-bottom:13px}
+  .cfield label{display:block;color:#FBE6CF;font-size:12.5px;font-weight:700;margin-bottom:6px}
+  .cfield input[type=text]{width:100%;font-family:inherit;font-size:14px;color:#fff;
+    background:rgba(255,243,228,.1);border:1px solid rgba(255,201,92,.4);border-radius:11px;padding:12px 14px}
+  .cfield input::placeholder{color:#cfa893}
+  .cfield input:focus{outline:none;border-color:var(--glow-3)}
+  .consent{display:flex;gap:9px;align-items:flex-start;text-align:left;color:#E9C8B6;font-size:11.5px;
+    font-weight:500;line-height:1.5;margin:2px 0 15px;cursor:pointer}
+  .consent input{flex:none;width:auto;margin-top:2px;accent-color:var(--glow-2)}
+  .cap .cta{display:block;width:100%}
+  .caperr{color:#FFD2C2;font-size:12.5px;font-weight:700;margin-top:10px;min-height:1px}
+  .capdone{display:none}
+  .pwbox{background:rgba(255,243,228,.12);border:1px dashed rgba(255,201,92,.5);border-radius:12px;
+    padding:12px;margin-bottom:14px;font-size:13px;color:#FBE6CF;font-weight:600}
+  .pwbox b{display:inline-block;font-size:18px;font-weight:900;color:var(--glow-3);letter-spacing:.08em;margin-left:6px}
+  .restart{display:block;text-align:center;font-size:12.5px;color:var(--ink-soft);font-weight:600;
+    background:none;border:none;cursor:pointer;margin:22px auto 0;text-decoration:underline}
+  .foot-credit{text-align:center;font-size:11px;color:var(--ink-soft);padding:20px 22px 0;line-height:1.7}
+
+  .typename{font-size:14px;font-weight:700;color:var(--glow-3);margin-top:6px;letter-spacing:.02em}
+  .statcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:13px}
+  .rarity{text-align:center;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:16px}
+  .rarity b{color:var(--glow-1)}
+  .stats{display:grid;gap:11px}
+  .stat{display:flex;align-items:center;gap:10px}
+  .stat .sl{flex:none;width:52px;font-size:12.5px;font-weight:700;color:var(--ink-soft)}
+  .stat .sb{flex:1;height:9px;background:var(--paper-2);border-radius:9px;overflow:hidden}
+  .stat .sb i{display:block;height:100%;width:0;border-radius:9px;background:var(--grad);transition:width .9s cubic-bezier(.2,.8,.2,1)}
+  .stat .sv{flex:none;width:30px;text-align:right;font-size:12.5px;font-weight:800;color:var(--ink)}
+  .collab{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--ink-soft);text-align:center;line-height:1.7}
+  .collab b{color:var(--ink);font-weight:800;font-size:14px}
+  .sharebtn{display:block;width:100%;font-family:inherit;font-weight:800;font-size:15px;cursor:pointer;
+    border-radius:100px;padding:15px;margin:4px 0 2px;
+    background:#fff;color:var(--glow-1);border:1.5px solid var(--glow-2);transition:transform .12s}
+  .sharebtn:hover{transform:translateY(-1px)} .sharebtn:active{transform:translateY(0)}
+  .sharehint{text-align:center;font-size:11.5px;color:var(--ink-soft);margin:8px 0 2px}
+  .rnote{background:rgba(255,158,69,.12);border:1px solid var(--glow-2);border-radius:12px;
+    padding:14px 16px;font-size:13px;color:var(--ink);line-height:1.6;margin:-2px 0 10px}
+  :focus-visible{outline:3px solid var(--glow-2);outline-offset:2px;border-radius:10px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section id="intro" class="screen active">
+    <span class="badge">무료 진단 · MVL</span>
+    <p class="eq">나 <span class="glow">+</span> AI <span class="glow">=</span> ?</p>
+    <h1>나에게 맞는<br><span class="glow">AI 수익화 유형</span></h1>
+    <p class="serif">"뭘 해야 할지" 막막하다면, 30초면 돼요.<br>몇 가지 질문으로 나에게 맞는 길을 찾아드려요.</p>
+    <button class="cta" id="startBtn">진단 시작하기 →</button>
+    <p class="by">by 해나 (김하은) · @hannah.hoon.hajoon</p>
+  </section>
+
+  <section id="quiz" class="screen">
+    <div class="pbar-wrap">
+      <div class="pbar"><span id="pbarFill"></span></div>
+      <p class="pcount" id="pcount"></p>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:8px 22px 0">
+      <h2 class="qtitle" id="qtitle"></h2>
+      <div class="opts" id="opts"></div>
+      <div class="qnav">
+        <button class="back" id="backBtn">← 이전</button>
+        <span style="font-size:12px;color:var(--ink-soft)">선택하면 다음으로</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="result" class="screen">
+    <div class="res-hero">
+      <p class="lbl">진단 결과</p>
+      <div class="emoji" id="rEmoji"></div>
+      <h2 id="rNick"></h2>
+      <p class="typename" id="rTypeName"></p>
+      <p class="tagline" id="rTagline"></p>
+    </div>
+    <div class="res-body">
+      <div class="statcard">
+        <p class="rarity"><span id="rRarity"></span> · 이 유형은 전체의 <b id="rPercent"></b></p>
+        <div class="stats" id="rStats"></div>
+        <p class="collab">🤝 찰떡 콜라보 유형<br><b id="rCollab"></b></p>
+      </div>
+      <div class="rcard"><p class="rh">💡 왜 당신에게 맞을까</p><p class="rt" id="rWhy"></p></div>
+      <div class="rcard"><p class="rh">👣 첫 한 걸음</p><p class="rt" id="rStep"></p></div>
+      <div class="rcard"><p class="rh">⚠️ 흔한 함정</p><p class="rt" id="rTrap"></p></div>
+      <p class="rnote" id="rNote" style="display:none"></p>
+      <p class="also" id="rAlso"></p>
+      <button class="sharebtn" id="shareBtn">🔗 내 결과 공유하기 (카톡·인스타)</button>
+      <p class="sharehint">친구도 자기 유형이 궁금할걸요 👀</p>
+
+      <div class="cap">
+        <div id="capForm">
+          <p class="ch">관련 정보 받고,<br>커뮤니티 입장하기</p>
+          <p class="cs">앞으로 도움 되는 자료·소식을 보내드리고,<br>무료 카톡 커뮤니티 입장 비번을 안내해 드려요.</p>
+          <div class="cfield"><label for="name">이름</label><input type="text" id="name" placeholder="홍길동" /></div>
+          <div class="cfield"><label for="email">이메일</label><input type="text" id="email" placeholder="me@email.com" inputmode="email" /></div>
+          <div class="cfield"><label for="phone">전화번호</label><input type="text" id="phone" placeholder="010-0000-0000" inputmode="tel" /></div>
+          <label class="consent"><input type="checkbox" id="consent" />
+            <span>입력 정보를 자료 제공·마케팅 목적으로 사용하는 데 동의합니다.</span></label>
+          <button class="cta" id="submitBtn">정보 받고 커뮤니티 입장 →</button>
+          <p class="caperr" id="capErr"></p>
+        </div>
+        <div id="capDone" class="capdone">
+          <p class="ch">완료됐어요! 🎉</p>
+          <p class="cs">아래 버튼으로 커뮤니티에 입장하세요.<br>입장 시 아래 비밀번호를 입력하면 돼요.</p>
+          <div class="pwbox">입장 비밀번호 <b id="pwText">----</b></div>
+          <a class="cta" id="communityBtn" href="#">💬 카톡 커뮤니티 입장하기 →</a>
+        </div>
+      </div>
+      <button class="restart" id="restartBtn">처음부터 다시 진단하기</button>
+      <p class="foot-credit">이 진단기는 마케터 해나가 AI로 직접 만들었어요 · MVL<br>입력 정보는 '받기'를 누를 때만, 자료 제공·마케팅 안내를 위해 전송됩니다.</p>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  /* ───────── [설정] ───────── */
+  var COMMUNITY_URL = "https://open.kakao.com/o/g9ayiL3h";
+  var COMMUNITY_PASSWORD = "2626";
+  var ENDPOINT = "https://script.google.com/macros/s/AKfycbyok9nSMsuD0WUlizozcecOIcR7SXoqQuPmXxq0dTA_6fOpPt_iTPXVFr5bmWXV-tKXhg/exec";
+  /* ───────────────────────── */
+
+  var $=function(id){return document.getElementById(id);};
+
+  var STEPS={
+    q1:{ q:'지금 내 상황에 가장 가까운 건?', opts:[
+      { l:'운영 중인 사업·가게가 있어요', next:'intent' },
+      { l:'내세울 경력·전문성이 있어요', next:'bq2' },
+      { l:'키우는 SNS 계정이 있어요', next:'bq2' },
+      { l:'이제 막 시작하려 해요', next:'bq2' } ]},
+    intent:{ q:'지금 더 끌리는 건?', opts:[
+      { l:'지금 사업을 더 키우고 싶어요', next:'onoff' },
+      { l:'새로운 부수익을 찾고 싶어요', next:'bq2' } ]},
+    onoff:{ q:'내 사업은 주로 어디서 이뤄져?', nextAll:'aq2', opts:[
+      { l:'오프라인 매장·지역 기반' },
+      { l:'온라인 중심' },
+      { l:'온·오프 둘 다' } ]},
+    aq2:{ q:'지금 가장 풀고 싶은 건?', nextAll:'aq3', opts:[
+      { l:'새 고객·매출을 늘리고 싶어요' },
+      { l:'단골·재방문을 늘리고 싶어요' },
+      { l:'일이 많아 자동화하고 싶어요' } ]},
+    aq3:{ q:'마케팅, 어떻게 하고 싶어?', nextAll:'RESULT_A', opts:[
+      { l:'직접 배워서 하고 싶어요' },
+      { l:'핵심만 직접, 나머지는 AI로' },
+      { l:'전문가에게 맡기고 싶어요' } ]},
+    bq2:{ q:'하나만 고르라면, 뭘 먼저 해보고 싶어?', sub:'(잘하는 거 말고, 끌리는 거)', nextAll:'bq3', opts:[
+      { l:'일상·생각을 콘텐츠로 보여주기', s:{A:5} },
+      { l:'아는 걸 정리해 알려주기', s:{B:5} },
+      { l:'좋은 물건 찾아 추천·팔기', s:{D:5} },
+      { l:'도구·AI 만지며 만들기', s:{C:5} } ]},
+    bq3:{ q:'어떤 수익화 스타일을 원해?', nextAll:'bq4', opts:[
+      { l:'빨리, 일한 만큼 바로 버는 쪽', s:{C:2,D:2} },
+      { l:'천천히, 쌓이는 자산형', s:{A:2,B:2} } ]},
+    bq4:{ q:'내 얼굴·이름 내거는 건?', nextAll:'RESULT_B', opts:[
+      { l:'좋아요 / 괜찮아요', s:{A:2,B:2} },
+      { l:'필요하면 할 수 있어요', s:{} },
+      { l:'얼굴 없이 하고 싶어요', s:{C:2,D:2} } ]}
+  };
+
+  var RESULTS={
+    A:{ emoji:'🎬', name:'콘텐츠 수익화형', nick:'타고난 매력 크리에이터', tag:'꾸준함과 솔직함이 곧 자산이 되는 길',
+        rarity:'⭐⭐', percent:'28%', collab:'B', collabWhy:'네 콘텐츠 + 그들의 전문성 = 강의 대박각',
+        stats:{'실행력':75,'끈기':85,'센스':90,'자유도':80},
+        why:'일상·관심사를 보여주는 게 끌린다고 했죠. 거창한 전문성이 없어도, 꾸준함과 솔직함이 무기가 되는 길이에요. 카메라 울렁증이 있어도 자막·손만 나오는 콘텐츠로 충분히 시작할 수 있어요.',
+        step:'인스타 돋보기(🔍)를 눌러 요즘 어떤 릴스가 많이 뜨는지 보고, 내 관심사를 키워드로 적어보세요. 그중 ‘이건 해볼 만하다’ 싶은 2개를 추려, 각각 릴스를 하나씩 만들어 주변에 보여주세요. ‘더 재밌다·더 좋다’는 반응이 오는 쪽으로 콘텐츠를 넓혀가면 돼요.',
+        trap:'처음부터 떡상을 바라지 않기. 일단 올려보고, 결과에 따라 방향을 수정해 나가면 돼요.' },
+    B:{ emoji:'📘', name:'지식 판매형', nick:'걸어다니는 정보 요정', tag:'반 발 앞선 경험이 누군가에겐 정답',
+        rarity:'⭐⭐⭐', percent:'18%', collab:'A', collabWhy:'네 지식 + 그들의 확산력 = 완벽한 팀',
+        stats:{'실행력':70,'끈기':88,'센스':80,'자유도':75},
+        why:'아는 걸 정리해 알려주는 게 끌린다고 했죠. 대단한 자격증이 아니어도, 누군가보다 ‘반 발’ 앞선 경험이면 충분히 팔려요.',
+        step:'"내가 남들보다 조금 더 아는 것" 3개를 적어보세요. 그중 사람들이 검색할 만한 1개로 짧은 무료 자료부터 만들어요.',
+        trap:'완벽해질 때까지 안 내놓기. 작게 먼저 내보고, 반응 보며 다듬는 게 정답이에요.' },
+    C:{ emoji:'⚡', name:'AI 프리랜서·외주형', nick:'AI 실전 해결사', tag:'가장 빨리 현금이 도는 길',
+        rarity:'⭐⭐⭐⭐', percent:'12%', collab:'D', collabWhy:'네 자동화 도구 + 그들의 판매력',
+        stats:{'실행력':90,'끈기':70,'센스':85,'자유도':95},
+        why:'도구·AI 만지는 게 끌리고, 빨리 버는 걸 원했죠. 가장 빨리 현금이 도는 길이에요. 코딩을 몰라도 요즘 AI 도구로 충분히 시작할 수 있어요. 얼굴을 안 비춰도 되는 것도 장점이에요.',
+        step:'AI로 만들 수 있는 결과물 1가지(이미지·카피·자동화 등)를 정해 샘플 3개를 만들어 포트폴리오로. 크몽·숨고에 올려보세요.',
+        trap:'단가 후려치기. "싸게"가 아니라 "확실한 결과물"로 자리 잡아야 오래가요.' },
+    D:{ emoji:'🛍️', name:'커머스·공구형', nick:'픽하면 완판, 안목 셀러', tag:'안목과 부지런함이 곧 매출',
+        rarity:'⭐⭐⭐', percent:'22%', collab:'C', collabWhy:'그들의 AI 자동화로 네 판매를 폭발시키기',
+        stats:{'실행력':88,'끈기':75,'센스':82,'자유도':78},
+        why:'좋은 물건 찾아 추천·판매가 끌린다고 했죠. 안목과 부지런함이 그대로 매출이 되는 실행형이에요. 무재고·공구로 자본을 적게 들여 시작하는 길도 있고, 얼굴을 안 비춰도 돼요.',
+        step:'처음 팔아보고 싶은 제품군 1개를 정하고, 그 제품군에서 반응 좋은 릴스 10개를 추려 분석해보세요.',
+        trap:'신뢰부터 쌓기. 잘 팔릴 제품을 고르는 것도 중요하지만, 제품 퀄리티가 떨어지면 재구매가 없어서 결국 성장이 어려워져요.' },
+    E1:{ emoji:'📣', name:'고객을 부르는 확성기형', nick:'고객을 부르는 확성기', tag:'좋은데, 아직 아무도 모른다',
+        rarity:'⭐⭐⭐', percent:'19%', collab:'A', collabWhy:'네 매장 + 그들의 확산력',
+        stats:{'실행력':88,'끈기':72,'센스':80,'자유도':65},
+        why:'제품은 준비됐는데 ‘알려지는 것’에서 막혀 있어요. 지금은 브랜딩보다 발견이 먼저예요.',
+        steps:{ off:'네이버 플레이스부터 정리(사진·리뷰). ‘동네+업종’ 잘된 집을 따라 해보세요.',
+                on:'썸네일·첫 3초를 점검. ‘제품+고민’ 키워드로 검색 유입을 노려보세요.',
+                both:'온라인 상세부터 점검하고, 플레이스 정리도 같이 챙기세요.' },
+        trap:'예쁜 계정 만들기에 시간 쓰지 않기. 지금은 노출 횟수예요.' },
+    E2:{ emoji:'💛', name:'팬을 만드는 브랜딩형', nick:'팬을 만드는 브랜딩러', tag:'한 번 온 손님이 다시 오게',
+        rarity:'⭐⭐⭐', percent:'15%', collab:'B', collabWhy:'네 브랜드 + 그들의 신뢰 콘텐츠',
+        stats:{'실행력':75,'끈기':85,'센스':85,'자유도':63},
+        why:'신규는 오는데 안 남죠. 새로 사는 것보다, 온 사람을 팬으로 만드는 게 싸요.',
+        steps:{ off:'재방문 이유 하나 만들기(단골 혜택). 사장님 얼굴·이야기를 노출하세요.',
+                on:'구매 후 경험을 설계(후속 메시지·전용 소식). 브랜드 스토리를 노출하세요.',
+                both:'구매 후 경험부터 챙기고, 매장 단골 혜택도 함께요.' },
+        trap:'할인으로만 단골 만들기. 싸서 온 손님은 더 싼 곳으로 가요.' },
+    E3:{ emoji:'⚙️', name:'시스템으로 굴리는 효율형', nick:'시스템으로 굴리는 효율러', tag:'몸이 열 개라도 모자란',
+        rarity:'⭐⭐⭐⭐', percent:'9%', collab:'C', collabWhy:'그들의 자동화로 네 시간 벌기',
+        stats:{'실행력':80,'끈기':78,'센스':75,'자유도':70},
+        why:'아이디어가 없는 게 아니라 시간이 없는 거죠. 답은 ‘더 열심히’가 아니라 ‘덜 직접’이에요.',
+        steps:{ off:'예약·문의 응대부터 자동화. 콘텐츠는 예약 발행으로 미뤄두세요.',
+                on:'반복 CS·안내를 자동화. 콘텐츠 초안은 AI로 절반만 만드세요.',
+                both:'반복 응대부터 자동화하고, 콘텐츠는 예약 발행하세요.' },
+        trap:'다 직접 하려다 다 놓치기. 사장님 시간이 제일 비싼 자원이에요.' }
+  };
+  var TIEB=['A','B','C','D'];
+
+  var step='q1', history=[], picks={}, pathTotal=4;
+  var resultType='', resultType2='', agencyNote='';
+  var payloadMeta={track:'',detail:''};
+
+  function show(id){ ['intro','quiz','result'].forEach(function(s){ $(s).classList.toggle('active', s===id); }); window.scrollTo(0,0); }
+  function calcPathTotal(){ pathTotal = (picks.q1===0) ? 5 : 4; }
+  function lbl(st){ return (picks[st]!=null && STEPS[st]) ? STEPS[st].opts[picks[st]].l : ''; }
+
+  function renderStep(){
+    var S=STEPS[step];
+    $('qtitle').innerHTML = S.q + (S.sub ? '<small>'+S.sub+'</small>' : '');
+    var box=$('opts'); box.innerHTML='';
+    S.opts.forEach(function(o,i){
+      var b=document.createElement('button');
+      b.className='opt'+(picks[step]===i?' sel':''); b.textContent=o.l;
+      b.addEventListener('click',function(){
+        picks[step]=i;
+        Array.prototype.forEach.call(box.children,function(c){c.classList.remove('sel');});
+        b.classList.add('sel');
+        calcPathTotal();
+        setTimeout(advance,230);
+      });
+      box.appendChild(b);
+    });
+    calcPathTotal();
+    $('pbarFill').style.width=(history.length/pathTotal)*100+'%';
+    $('pcount').textContent=(history.length+1)+' / '+pathTotal;
+    $('backBtn').disabled = history.length===0;
+  }
+  function advance(){
+    var S=STEPS[step], nxt=S.opts[picks[step]].next || S.nextAll;
+    history.push(step);
+    if(nxt==='RESULT_A'){ computeResultA(); show('result'); return; }
+    if(nxt==='RESULT_B'){ computeResultB(); show('result'); return; }
+    step=nxt; renderStep();
+  }
+  $('backBtn').addEventListener('click',function(){ if(history.length){ step=history.pop(); renderStep(); } });
+  $('startBtn').addEventListener('click',function(){ show('quiz'); renderStep(); });
+
+  function computeResultB(){
+    agencyNote='';
+    var sc={A:0,B:0,C:0,D:0};
+    ['bq2','bq3','bq4'].forEach(function(st){
+      if(picks[st]!=null){ var s=STEPS[st].opts[picks[st]].s||{}; for(var k in s) sc[k]=(sc[k]||0)+s[k]; }
+    });
+    var order=['A','B','C','D'].sort(function(a,b){ if(sc[b]!==sc[a]) return sc[b]-sc[a]; return TIEB.indexOf(a)-TIEB.indexOf(b); });
+    resultType=order[0]; resultType2=order[1];
+    payloadMeta.track=(picks.q1===0)?'새 수익(사업주)':'새 수익';
+    payloadMeta.detail='하고싶은것: '+lbl('bq2')+' / 스타일: '+lbl('bq3')+' / 얼굴: '+lbl('bq4');
+    renderResult();
+  }
+  function computeResultA(){
+    var subs=['E1','E2','E3'];
+    resultType = subs[picks.aq2!=null?picks.aq2:0];
+    resultType2 = RESULTS[resultType].collab;
+    var agency = (picks.aq3===2);
+    payloadMeta.track = '사업 키우기' + (agency?' · 대행관심Y':'');
+    payloadMeta.detail = '온오프: '+lbl('onoff')+' / 목표: '+lbl('aq2')+' / 마케팅: '+lbl('aq3');
+    agencyNote = agency ? '혹시 직접 다 하기 벅차다면, 마케팅은 맡기고 본업에 집중하는 것도 방법이에요.' : '';
+    renderResult();
+  }
+
+  function renderStats(type){
+    var st=RESULTS[type].stats, box=$('rStats'); box.innerHTML='';
+    ['실행력','끈기','센스','자유도'].forEach(function(k){
+      var row=document.createElement('div'); row.className='stat';
+      row.innerHTML='<span class="sl">'+k+'</span><span class="sb"><i></i></span><span class="sv">'+st[k]+'</span>';
+      box.appendChild(row);
+      var bar=row.querySelector('i');
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){ bar.style.width=st[k]+'%'; }); });
+    });
+  }
+  function renderView(view, other){
+    var R=RESULTS[view];
+    $('rEmoji').textContent=R.emoji;
+    $('rNick').textContent=R.nick;
+    $('rTypeName').textContent='"'+R.name+'"';
+    $('rTagline').textContent=R.tag;
+    $('rRarity').textContent='희귀도 '+R.rarity;
+    $('rPercent').textContent=R.percent;
+    renderStats(view);
+    var c=RESULTS[R.collab];
+    $('rCollab').innerHTML=c.emoji+' '+c.name+'<br><span style="font-weight:500">'+R.collabWhy+'</span>';
+    $('rWhy').textContent=R.why;
+    var stepText=R.step;
+    if(R.steps){ var chKey=['off','on','both'][picks.onoff]; if(!chKey) chKey='on'; stepText=R.steps[chKey]||R.steps.on; }
+    $('rStep').textContent=stepText;
+    $('rTrap').textContent=R.trap;
+    var note=$('rNote');
+    if(note){ if(view===resultType && agencyNote){ note.textContent=agencyNote; note.style.display='block'; } else { note.style.display='none'; } }
+    $('rAlso').innerHTML='이런 길도 잘 맞아요 → <button type="button" class="alsoBtn" id="alsoBtn"></button>';
+    $('alsoBtn').textContent=RESULTS[other].name;
+    $('alsoBtn').addEventListener('click',function(){
+      renderView(other, view);
+      var h=document.querySelector('#result .res-hero');
+      if(h) h.scrollIntoView({behavior:'smooth',block:'start'}); else window.scrollTo(0,0);
+    });
+  }
+  function renderResult(){
+    renderView(resultType, resultType2);
+    $('communityBtn').setAttribute('href',COMMUNITY_URL);
+    if($('pwText')) $('pwText').textContent=COMMUNITY_PASSWORD;
+    $('capForm').style.display='block'; $('capDone').style.display='none';
+    var btn=$('submitBtn'); btn.disabled=false; btn.textContent='정보 받고 커뮤니티 입장 →';
+  }
+
+  $('submitBtn').addEventListener('click',function(){
+    var name=$('name').value.trim(), email=$('email').value.trim(), phone=$('phone').value.trim(), err=$('capErr');
+    if(!name){ err.textContent='이름을 입력해주세요.'; $('name').focus(); return; }
+    if(!email || email.indexOf('@')<1){ err.textContent='이메일을 정확히 입력해주세요.'; $('email').focus(); return; }
+    if(!phone){ err.textContent='전화번호를 입력해주세요.'; $('phone').focus(); return; }
+    if(!$('consent').checked){ err.textContent='개인정보 사용 동의에 체크해주세요.'; return; }
+    err.textContent=''; var btn=$('submitBtn'); btn.disabled=true; btn.textContent='보내는 중...';
+    var payload={ kind:'diagnostic', name:name, email:email, phone:phone, consent:true,
+      type:RESULTS[resultType].name, type2:RESULTS[resultType2].name,
+      track:payloadMeta.track, q1:lbl('q1'), intent:lbl('intent'), detail:payloadMeta.detail };
+    function done(){ $('capForm').style.display='none'; $('capDone').style.display='block';
+      $('capDone').scrollIntoView({behavior:'smooth',block:'center'}); }
+    if(ENDPOINT && ENDPOINT.charAt(0)!=='['){
+      try{ fetch(ENDPOINT,{method:'POST',mode:'no-cors',body:JSON.stringify(payload)}).then(done,done); }
+      catch(e){ done(); }
+    } else { done(); }
+  });
+
+  $('shareBtn').addEventListener('click',function(){
+    var R=RESULTS[resultType];
+    var url=window.location.href.split('#')[0];
+    var text='내 AI 수익화 유형은 「'+R.nick+'」 '+R.emoji+'\n너도 30초만에 찾아봐 👇';
+    if(navigator.share){
+      navigator.share({title:'나에게 맞는 AI 수익화 유형', text:text, url:url}).catch(function(){});
+    } else {
+      var t=document.createElement('textarea'); t.value=text+'\n'+url;
+      t.style.position='fixed'; t.style.opacity='0'; document.body.appendChild(t); t.select();
+      try{document.execCommand('copy');}catch(e){} document.body.removeChild(t);
+      var b=$('shareBtn'), o=b.textContent; b.textContent='✓ 링크 복사됐어요! 붙여넣기 하세요';
+      setTimeout(function(){ b.textContent=o; },1900);
+    }
+  });
+
+  $('restartBtn').addEventListener('click',function(){
+    step='q1'; history=[]; picks={}; pathTotal=4; payloadMeta={track:'',detail:''};
+    $('name').value=''; $('email').value=''; $('phone').value=''; $('consent').checked=false;
+    show('intro');
+  });
+})();
+</script>
+</body>
+</html>
